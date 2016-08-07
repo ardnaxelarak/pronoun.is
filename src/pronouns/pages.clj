@@ -141,9 +141,19 @@
         pronouns (concat [path] (u/vec-coerce alts))
         pronoun-declensions (filter some? (map #(lookup-pronouns (escape-html %)
                                                                 pronouns-table)
-                                              pronouns))]
+                                              pronouns))
+        specified [(params "subject-pronoun")
+                   (params "object-pronoun")
+                   (params "possessive-determiner")
+                   (params "possessive-pronoun")
+                   (params "reflexive")]
+        final (seq [(vec (map (fn [x y] (or x y)) specified (first pronoun-declensions)))])
+        ]
     (println path)
+    (println params)
     (println pronoun-declensions)
+    (println specified)
+    (println final)
     (if (seq pronoun-declensions)
-      (format-pronoun-examples pronoun-declensions)
+      (format-pronoun-examples final)
       (not-found))))
